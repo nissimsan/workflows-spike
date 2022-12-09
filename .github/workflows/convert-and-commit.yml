@@ -1,0 +1,22 @@
+name: Convert then commit
+
+on:
+  repository_dispatch:
+    types: [convert-jsonld]
+
+jobs:
+  convert-jsonld:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: nissimsan/jsonld-to-cypher@latest
+        with:
+          address: ${{ secrets.Address }}
+          username: ${{ secrets.Username }}
+          password: ${{ secrets.Password }}
+      - name: Run a one-line script
+        run: echo Hello, world!
+      - name: Install jsonld-to-cypher
+        run: npm i -g @nissimsan/jsonld-to-cypher@latest
+      - name: Run a conversion 
+        run: jsonld-to-cypher convert ./docs/vc.jwt  --type jwt
