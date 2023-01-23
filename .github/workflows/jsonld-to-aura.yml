@@ -28,6 +28,7 @@ jobs:
     outputs:
       json: ${{ steps.merge.outputs.json }}
     steps:
+      - uses: actions/checkout@v3
       - name: Cache Restore
         uses: actions/cache@v3
         id: cache-restore
