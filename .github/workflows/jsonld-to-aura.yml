@@ -4,14 +4,11 @@ on: [workflow_dispatch]
 
 jobs:
   merge:
-    needs:
-      - build
     runs-on: ubuntu-latest
     name: Merge
     outputs:
       json: ${{ steps.merge.outputs.json }}
     steps:
-      - uses: actions/checkout@v3
       - name: Cache Restore
         uses: actions/cache@v3
         id: cache-restore
@@ -20,7 +17,7 @@ jobs:
             ./*
           key: ${{ github.sha }}
       - name: Merge Query from Document
-        uses: nissimsan/jsonld-to-cypher@v0.1.2
+        uses: transmute-industries/jsonld-to-cypher@v0.1.2
         id: merge
         with:
           neo4j-uri: ${{ secrets.NEO4J_URI }}
