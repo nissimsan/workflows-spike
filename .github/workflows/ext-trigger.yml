@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: cbastn/cypher-shell-docker@v1
         with:
-          address: ${{ secrets.Address }}
-          username: ${{ secrets.Username }}
-          password: ${{ secrets.Password }}
+          address: ${{ secrets.NEO4J_URI }}
+          username: ${{ secrets.NEO4J_USERNAME }}
+          password: ${{ secrets.NEO4J_PASSWORD }}
           file: './Sample.cypher'
