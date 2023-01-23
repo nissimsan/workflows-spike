@@ -6,8 +6,16 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     name: Merge
+    outputs:
+      json: ${{ steps.merge.outputs.json }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Cache Restore
+        uses: actions/cache@v3
+        id: cache-restore
+        with:
+          path: |
+            ./*
+          key: ${{ github.sha }}
       - name: Merge Query from Document
         uses: transmute-industries/jsonld-to-cypher@v0.1.2
         id: merge
