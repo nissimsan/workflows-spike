@@ -33,7 +33,6 @@ jobs:
                 "VerifiableCredential",
                 "GS1KeyCredential"
               ],
-              "issuer": ${{ secrets.ORGANIZATION_DID_WEB }},
               "issuanceDate": "2020-12-02T09:48:11Z",
               "credentialSubject": {
                 "id": "https://id.gs1.org/01/07541234555551",
