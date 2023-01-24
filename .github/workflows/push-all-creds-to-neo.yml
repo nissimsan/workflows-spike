@@ -1,4 +1,4 @@
-name: VDP
+name: Push all VCs to Neo
 on: [workflow_dispatch]
 jobs:
   store-credential:
@@ -22,6 +22,9 @@ jobs:
         id: getCredentials
         with:
           operation-id: getCredentials
+
+      - name: View Credential
+        run: echo "$verifiable_data_platform_api_response" | jq
 
       - name: Push to Neo
         uses: transmute-industries/jsonld-to-cypher@v0.1.3
