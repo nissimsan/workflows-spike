@@ -1,0 +1,171 @@
+name: GS1 GTIN 12/13 Workflow
+on: [workflow_dispatch]
+jobs:
+  gs1-global-office:
+    runs-on: ubuntu-latest
+    name: GS1 Global Office
+    steps:
+      - name: Get Access Token
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: getAccessToken
+        with:
+          operation-id: getAccessToken
+          api-base-url: ${{ secrets.API_BASE_URL }}
+          did: ${{ secrets.ORGANIZATION_DID_WEB }}
+          token-endpoint: ${{ secrets.TOKEN_ENDPOINT }}
+          token-audience: ${{ secrets.TOKEN_AUDIENCE }} 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+      - name: Issue Credential
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: issueCredential
+        with:
+          operation-id: issueCredential
+          credential: |
+            {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://ref.gs1.org/gs1/vc/licence-context/"
+              ],
+              "id": "https://id.gs1.org/vc/licence/gs1_prefix/754",
+              "type": [
+                "VerifiableCredential",
+                "GS1PrefixLicenceCredential"
+              ],
+              "issuer": "${{ secrets.ORGANIZATION_DID_WEB }}",
+              "issuanceDate": "2005-01-01T00:00:00Z",
+              "credentialSubject": {
+                "id": "did:web:www.gs1ca.org",
+                "partyGLN": "7541230000000",
+                "organizationName": "GS1 Canada",
+                "licenceValue": "754"
+              },
+              "proof": {
+                "type": "Ed25519Signature2018",
+                "created": "2022-11-30T13:10:01Z",
+                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
+                "proofPurpose": "assertionMethod",
+                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..yMyMudPxIJhNvJK2RFwv_epVrfUj2Gqh25XntukS9gCYNgbY5sT06773UtMsa5D-aElDyn8gc-PdbXdPvhyvDg"
+              }
+            }
+      - name: Push to Neo
+        uses: transmute-industries/jsonld-to-cypher@v0.1.3
+        id: merge
+        with:
+          neo4j-uri: ${{ secrets.NEO4J_URI }}
+          neo4j-user: ${{ secrets.NEO4J_USERNAME }}
+          neo4j-password: ${{ secrets.NEO4J_PASSWORD }}
+          operation: merge
+          document: "${{ env.verifiable_data_platform_api_response }}"
+  gs1-vietnam:
+    runs-on: ubuntu-latest
+    name: GS1 Vietnam
+    steps:
+      - name: Get Access Token
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: getAccessToken
+        with:
+          operation-id: getAccessToken
+          api-base-url: ${{ secrets.API_BASE_URL }}
+          did: ${{ secrets.ORGANIZATION_DID_WEB }}
+          token-endpoint: ${{ secrets.TOKEN_ENDPOINT }}
+          token-audience: ${{ secrets.TOKEN_AUDIENCE }} 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+      - name: Issue Credential
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: issueCredential
+        with:
+          operation-id: issueCredential
+          credential: |
+            {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://ref.gs1.org/gs1/vc/licence-context/"
+              ],
+              "id": "did:example:b6d13abe-464d-4bb9-a568-b6d81efd57e3",
+              "type": [
+                "VerifiableCredential",
+                "GS1CompanyPrefixLicenceCredential"
+              ],
+              "issuer": "${{ secrets.ORGANIZATION_DID_WEB }}",
+              "issuanceDate": "2020-11-19T14:56:37Z",
+              "credentialSubject": {
+                "id": "did:web:www.example.ca",
+                "partyGLN": "7541234000006",
+                "organizationName": "Example Company",
+                "extendsCredential": "https://id.gs1.org/vc/licence/gs1_prefix/754",
+                "licenceValue": "7541234"
+              },
+              "proof": {
+                "type": "Ed25519Signature2018",
+                "created": "2022-11-30T13:23:52Z",
+                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
+                "proofPurpose": "assertionMethod",
+                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.._zepud199ohHokEILZYARRAPCZ20zPSQ8SRGvvOXR7NVV2a--yS0_XJ9VLB57h8q4V5hCCbyC0BQobEJa4AKAQ"
+              }
+            }
+      - name: Push to Neo
+        uses: transmute-industries/jsonld-to-cypher@v0.1.3
+        id: merge
+        with:
+          neo4j-uri: ${{ secrets.NEO4J_URI }}
+          neo4j-user: ${{ secrets.NEO4J_USERNAME }}
+          neo4j-password: ${{ secrets.NEO4J_PASSWORD }}
+          operation: merge
+          document: "${{ env.verifiable_data_platform_api_response }}"
+  ofelia:
+    runs-on: ubuntu-latest
+    name: Ofelia
+    steps:
+      - name: Get Access Token
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: getAccessToken
+        with:
+          operation-id: getAccessToken
+          api-base-url: ${{ secrets.API_BASE_URL }}
+          did: ${{ secrets.ORGANIZATION_DID_WEB }}
+          token-endpoint: ${{ secrets.TOKEN_ENDPOINT }}
+          token-audience: ${{ secrets.TOKEN_AUDIENCE }} 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+      - name: Issue Credential
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: issueCredential
+        with:
+          operation-id: issueCredential
+          credential: |
+            {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://ref.gs1.org/gs1/vc/licence-context/",
+                "https://w3id.org/vc/status-list/2021/v1"
+              ],
+              "id": "did:example:60cda318-a0a7-4e39-b600-ea38bf68a31f",
+              "type": [
+                "VerifiableCredential",
+                "GS1KeyCredential"
+              ],
+              "issuer": "${{ secrets.ORGANIZATION_DID_WEB }}",
+              "issuanceDate": "2020-12-02T09:48:11Z",
+              "credentialSubject": {
+                "id": "https://id.gs1.org/01/07541234555551",
+                "extendsCredential": "did:example:b6d13abe-464d-4bb9-a568-b6d81efd57e3"
+              },
+              "proof": {
+                "type": "Ed25519Signature2018",
+                "created": "2023-01-03T11:29:14Z",
+                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
+                "proofPurpose": "assertionMethod",
+                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..HZtoLHUCGXalQH8VPClh0TcsQeNKS5i9KWLyASTQYfPIUPDMnLnjgjPJ5TVCn7S4CV7i45aTsUWkfs6cBNntBQ"
+              }
+            }
+      - name: Push to Neo
+        uses: transmute-industries/jsonld-to-cypher@v0.1.3
+        id: merge
+        with:
+          neo4j-uri: ${{ secrets.NEO4J_URI }}
+          neo4j-user: ${{ secrets.NEO4J_USERNAME }}
+          neo4j-password: ${{ secrets.NEO4J_PASSWORD }}
+          operation: merge
+          document: "${{ env.verifiable_data_platform_api_response }}"
