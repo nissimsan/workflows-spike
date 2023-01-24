@@ -37,7 +37,7 @@ jobs:
               "credentialSubject": {
                 "id": "https://id.gs1.org/01/07541234555551",
                 "extendsCredential": "did:example:b6d13abe-464d-4bb9-a568-b6d81efd57e3"
-              },
+              }
             }
       - name: Store Credential
         uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
