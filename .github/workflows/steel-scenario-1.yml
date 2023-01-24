@@ -1,0 +1,141 @@
+name: Steel Scenario 1
+on: [workflow_dispatch]
+
+jobs:
+  mine:
+    runs-on: ubuntu-latest
+    name: Mine
+    steps:
+      - name: Mine
+        run: echo "Iron ore is mined"
+        env: 
+          name: "Kropa, Slovenia"
+          image: mine.png
+          latitude: 46.304769 
+          longitude: 14.171946
+      - name: Get Access Token
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: getAccessToken
+        with:
+          operation-id: getAccessToken
+          api-base-url: ${{ secrets.API_BASE_URL }}
+          did: ${{ secrets.ORGANIZATION_DID_WEB }}
+          token-endpoint: ${{ secrets.TOKEN_ENDPOINT }}
+          token-audience: ${{ secrets.TOKEN_AUDIENCE }} 
+          client-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+      - name: Issue Credential
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: issueCredential
+        with:
+          operation-id: issueCredential
+          credential: |
+            {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://w3id.org/traceability/v1"
+              ],
+              "type": [
+                "VerifiableCredential",
+                "MillTestReportCertificate"
+              ],
+              "issuer": "${{ secrets.ORGANIZATION_DID_WEB }}",
+              "issuanceDate": "2020-12-02T09:48:11Z",
+              "credentialSubject": {
+                "id": "urn:uuid:123"
+              }
+            }
+      # - name: View Credential
+      #   run: echo "$verifiable_data_platform_api_response" | jq
+      - name: Merge Query from Document
+        uses: transmute-industries/jsonld-to-cypher@v0.1.3
+        id: merge
+        with:
+          neo4j-uri: ${{ secrets.NEO4J_URI }}
+          neo4j-user: ${{ secrets.NEO4J_USERNAME }}
+          neo4j-password: ${{ secrets.NEO4J_PASSWORD }}
+          operation: merge
+          document: "${{ env.verifiable_data_platform_api_response }}"
+            
+        
+    
+  refine:
+    needs:
+      - mine
+    runs-on: ubuntu-latest
+    name: Refine
+    steps:
+      - name: Refine
+        run: echo "Steel slab manufactured"
+        env: 
+          name: "Litostrojska Cesta 60, 1000 Ljubljana, Slovenia"
+          image: refine.png
+          latitude: 46.082712217981765
+          longitude: 14.509291227960922
+
+  shipped:
+    needs:
+      - refine
+    runs-on: ubuntu-latest
+    name: Shipped
+    steps:
+      - name: Shipped
+        run: echo "Loaded for transport and shipped"
+        env: 
+          name: "Portorož, Slovenia"
+          image: shipped.png
+          latitude: 45.51384848290152
+          longitude: 13.58426272679837
+      - name: Waypoint 0
+        run: echo "..."
+        env: 
+          name: "Suez, Egypt"
+          image: waypoint-0.png
+          latitude:  30.000494
+          longitude: 32.577482
+      - name: Waypoint 1
+        run: echo "... "
+        env: 
+          name: "Gulf of Aden, Yemen"
+          image: waypoint-1.png
+          latitude:  12.162159964780727
+          longitude: 47.84036358636036
+      - name: Waypoint 2
+        run: echo "..."
+        env: 
+          name: "Malacca Strait, Malaysia"
+          image: waypoint-2.png
+          latitude:  6.095117728104252
+          longitude: 97.29001442838504
+
+      - name: Waypoint 3
+        run: echo "..."
+        env: 
+          name: "Singapore Strait, Singapore"
+          image: waypoint-3.png
+          latitude:  0.483393
+          longitude: 104.183102
+
+      - name: Waypoint 4
+        run: echo "..."
+        env: 
+          name: "Manilla, Philippines"
+          image: waypoint-4.png
+          latitude:  14.774883
+          longitude: 119.254327
+
+      - name: Waypoint 5
+        run: echo "..."
+        env: 
+          name: "Shanghai, China"
+          image: waypoint-5.png
+          latitude:  30.637912
+          longitude: 123.387678
+      
+      - name: Waypoint 6
+        run: echo "..."
+        env: 
+          name: "Los Angeles, United States"
+          image: waypoint-6.png
+          latitude: 33.947917
+          longitude: 241.557334
