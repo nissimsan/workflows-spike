@@ -52,7 +52,7 @@ jobs:
           document: "${{ env.verifiable_data_platform_api_response }}"
   gs1-vietnam:
     needs:
-      - ofelia
+      - gs1-global-office
     runs-on: ubuntu-latest
     name: GS1 Vietnam
     steps:
@@ -104,7 +104,7 @@ jobs:
           document: "${{ env.verifiable_data_platform_api_response }}"
   ofelia:
     needs:
-      - gs1-global-office
+      - gs1-vietnam
     runs-on: ubuntu-latest
     name: Ofelia
     steps:
