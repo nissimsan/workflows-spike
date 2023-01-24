@@ -39,13 +39,6 @@ jobs:
                 "partyGLN": "7541230000000",
                 "organizationName": "GS1 Canada",
                 "licenceValue": "754"
-              },
-              "proof": {
-                "type": "Ed25519Signature2018",
-                "created": "2022-11-30T13:10:01Z",
-                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
-                "proofPurpose": "assertionMethod",
-                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..yMyMudPxIJhNvJK2RFwv_epVrfUj2Gqh25XntukS9gCYNgbY5sT06773UtMsa5D-aElDyn8gc-PdbXdPvhyvDg"
               }
             }
       - name: Push to Neo
@@ -98,13 +91,6 @@ jobs:
                 "organizationName": "Example Company",
                 "extendsCredential": "https://id.gs1.org/vc/licence/gs1_prefix/754",
                 "licenceValue": "7541234"
-              },
-              "proof": {
-                "type": "Ed25519Signature2018",
-                "created": "2022-11-30T13:23:52Z",
-                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
-                "proofPurpose": "assertionMethod",
-                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19.._zepud199ohHokEILZYARRAPCZ20zPSQ8SRGvvOXR7NVV2a--yS0_XJ9VLB57h8q4V5hCCbyC0BQobEJa4AKAQ"
               }
             }
       - name: Push to Neo
@@ -155,13 +141,6 @@ jobs:
               "credentialSubject": {
                 "id": "https://id.gs1.org/01/07541234555551",
                 "extendsCredential": "did:example:b6d13abe-464d-4bb9-a568-b6d81efd57e3"
-              },
-              "proof": {
-                "type": "Ed25519Signature2018",
-                "created": "2023-01-03T11:29:14Z",
-                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
-                "proofPurpose": "assertionMethod",
-                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..HZtoLHUCGXalQH8VPClh0TcsQeNKS5i9KWLyASTQYfPIUPDMnLnjgjPJ5TVCn7S4CV7i45aTsUWkfs6cBNntBQ"
               }
             }
       - name: Push to Neo
