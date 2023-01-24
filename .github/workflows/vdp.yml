@@ -16,11 +16,11 @@ jobs:
           token-audience: ${{ secrets.TOKEN_AUDIENCE }} 
           client-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
-      - name: Store Credential
+      - name: Issue Cred
         uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
-        id: storeCredential
+        id: issueCredential
         with:
-          operation-id: storeCredential
+          operation-id: issueCredential
           verifiable-credential: |
             {
               "@context": [
@@ -33,7 +33,7 @@ jobs:
                 "VerifiableCredential",
                 "GS1KeyCredential"
               ],
-              "issuer": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
+              "issuer": ${{ secrets.ORGANIZATION_DID_WEB }},
               "issuanceDate": "2020-12-02T09:48:11Z",
               "credentialSubject": {
                 "id": "https://id.gs1.org/01/07541234555551",
@@ -42,12 +42,11 @@ jobs:
               "credentialStatus": {
                 "id": "https://www.example.com/mycreds/status/60cda318-a0a7-4e39-b600-ea38bf68a31f",
                 "type": "StatusList2021Credential"
-              },
-              "proof": {
-                "type": "Ed25519Signature2018",
-                "created": "2023-01-03T11:29:14Z",
-                "verificationMethod": "did:key:z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U#z6MktHQo3fRRohk44dsbE76CuiTpBmyMWq2VVjvV6aBSeE3U",
-                "proofPurpose": "assertionMethod",
-                "jws": "eyJhbGciOiJFZERTQSIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..HZtoLHUCGXalQH8VPClh0TcsQeNKS5i9KWLyASTQYfPIUPDMnLnjgjPJ5TVCn7S4CV7i45aTsUWkfs6cBNntBQ"
               }
             }
+      - name: Store Credential
+        uses: transmute-industries/verifiable-data-platform-github-action@v0.0.2
+        id: storeCredential
+        with:
+          operation-id: storeCredential
+          verifiable-credential: "${{ env.verifiable_data_platform_api_response }}"
