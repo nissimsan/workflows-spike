@@ -1,4 +1,4 @@
-name: Demo
+name: VDP
 on: [workflow_dispatch]
 jobs:
   store-credential:
